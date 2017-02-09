@@ -4,11 +4,11 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "stdr_commander"); 
     ros::NodeHandle n; // two lines to create a publisher object that can talk to ROS
-    ros::Publisher twist_commander = n.advertise<geometry_msgs::Twist>("/robot0/cmd_vel", 1);
+    ros::Publisher twist_commander = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
     //some "magic numbers"
     double sample_dt = 0.01; //specify a sample period of 10ms  
-    double speed = 3.0; // 1m/s speed command
-    double yaw_rate = 1.5707; //pi/2 rad/sec yaw rate command
+    double speed = 0.2; // 1m/s speed command
+    double yaw_rate = 0.524; //pi/2 rad/sec yaw rate command
     double time_1_sec = 1.0; // should move 3 meters or 1.5 rad in 3 seconds
     
       
@@ -28,8 +28,11 @@ int main(int argc, char **argv) {
       twist_commander.publish(twist_cmd);
       loop_timer.sleep();
     }
-    twist_cmd.linear.x=speed; //command to move forward
-    while(timer<1.05*time_1_sec) {
+    for(int j=0;j<10;j++){
+    twist_cmd.angular.z=0.0;	
+    twist_cmd.linear.x=speed;
+    timer=0.0;                           //command to move forward
+    while(timer<5.0*time_1_sec) {
           twist_commander.publish(twist_cmd);
           timer+=sample_dt;
           loop_timer.sleep();
@@ -37,84 +40,60 @@ int main(int argc, char **argv) {
     twist_cmd.linear.x=0.0; 
     twist_cmd.angular.z=yaw_rate;
     timer=0.0; //reset the timer
-    while(timer<0.5*time_1_sec) {
+    while(timer<3.1*time_1_sec) {
           twist_commander.publish(twist_cmd);
           timer+=sample_dt;
           loop_timer.sleep();
           }
-
-    twist_cmd.angular.z=0.0; 
-    twist_cmd.linear.x=speed; 
+    twist_cmd.angular.z=0.0;	
+    twist_cmd.linear.x=speed;
+    timer=0.0;                         
+    while(timer<5.0*time_1_sec) {
+          twist_commander.publish(twist_cmd);
+          timer+=sample_dt;
+          loop_timer.sleep();
+          }
+    twist_cmd.linear.x=0.0; 
+    twist_cmd.angular.z=yaw_rate;
     timer=0.0; //reset the timer
-    while(timer<1.7*time_1_sec) {
+    while(timer<3.1*time_1_sec) {
           twist_commander.publish(twist_cmd);
           timer+=sample_dt;
           loop_timer.sleep();
           }
-    twist_cmd.angular.z=yaw_rate; 
-    twist_cmd.linear.x=0; 
+    twist_cmd.angular.z=0.0;	
+    twist_cmd.linear.x=speed;
+    timer=0.0;                         
+    while(timer<5.0*time_1_sec) {
+          twist_commander.publish(twist_cmd);
+          timer+=sample_dt;
+          loop_timer.sleep();
+          }
+    twist_cmd.linear.x=0.0; 
+    twist_cmd.angular.z=yaw_rate;
     timer=0.0; //reset the timer
-    while(timer<0.5*time_1_sec) {
+    while(timer<3.1*time_1_sec) {
           twist_commander.publish(twist_cmd);
           timer+=sample_dt;
           loop_timer.sleep();
           }
-    twist_cmd.angular.z=0; 
-    twist_cmd.linear.x=speed; 
+    twist_cmd.angular.z=0.0;	
+    twist_cmd.linear.x=speed;
+    timer=0.0;                         
+    while(timer<5.0*time_1_sec) {
+          twist_commander.publish(twist_cmd);
+          timer+=sample_dt;
+          loop_timer.sleep();
+          }
+    twist_cmd.linear.x=0.0; 
+    twist_cmd.angular.z=yaw_rate;
     timer=0.0; //reset the timer
-    while(timer<2.5*time_1_sec) {
+    while(timer<3.1*time_1_sec) {
           twist_commander.publish(twist_cmd);
           timer+=sample_dt;
           loop_timer.sleep();
           }
-    twist_cmd.angular.z=yaw_rate; 
-    twist_cmd.linear.x=0; 
-    timer=0.0; //reset the timer
-    while(timer<time_1_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-    twist_cmd.angular.z=0; 
-    twist_cmd.linear.x=speed; 
-    timer=0.0; //reset the timer
-    while(timer<1.3*time_1_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-    twist_cmd.angular.z=-yaw_rate; 
-    twist_cmd.linear.x=0; 
-    timer=0.0; //reset the timer
-    while(timer<time_1_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-     twist_cmd.angular.z=0; 
-    twist_cmd.linear.x=speed; 
-    timer=0.0; //reset the timer
-    while(timer<0.5*time_1_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-     twist_cmd.angular.z=yaw_rate; 
-    twist_cmd.linear.x=0; 
-    timer=0.0; //reset the timer
-    while(timer<time_1_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
-     twist_cmd.angular.z=0; 
-    twist_cmd.linear.x=speed; 
-    timer=0.0; //reset the timer
-    while(timer<time_1_sec) {
-          twist_commander.publish(twist_cmd);
-          timer+=sample_dt;
-          loop_timer.sleep();
-          }
+      }
  twist_cmd.angular.z=0.0; 
     twist_cmd.linear.x=0.0; 
     for (int i=0;i<10;i++) {
